@@ -194,7 +194,7 @@ async def confirm(message: Message, state: FSMContext):
         for phone in user.phone_numbers:
             phones_text += f"\t\t• {phone}\n"
         else:
-            phones_text = "Yo‘q"
+            phones_text = "\n"
 
         caption = f"""
 Yangi rezyume qo‘shildi:
