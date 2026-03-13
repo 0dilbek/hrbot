@@ -192,9 +192,8 @@ async def confirm(message: Message, state: FSMContext):
 
         phones_text = "\n\n"
         for phone in user.phone_numbers:
-            phones_text += f"\t\t• {phone}\n"
-        else:
-            phones_text = "\n"
+            phones_text += f"\t\t• {user.phone_numbers[phone]}\n"
+        phones_text += "\n"
 
         caption = f"""
 Yangi rezyume qo‘shildi:
