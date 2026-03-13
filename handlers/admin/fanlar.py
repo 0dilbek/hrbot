@@ -187,7 +187,7 @@ async def update_vacancy_text(message: Message, state: FSMContext):
         await message.answer("Fanlardan birini tanlang yoki yangisini qo‘shing.", reply_markup=fanlar_lst_btn([sub.name for sub in await Subjects.all()], is_admin=True))
         return
     vacancy = await VacanciesText.filter(name=subject.name).first()
-    if vacancy:
+    if vacancy.text:
         await state.update_data(selected_vacancy_id=vacancy.id)
         await message.answer(vacancy.text)
     await state.set_state(AdminSubjectStates.update_vacancy_text)
