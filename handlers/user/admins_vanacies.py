@@ -200,7 +200,7 @@ Yangi rezyume qo‘shildi:
 
 <blockquote expandable>
 Ism-Familiya: {user.full_name}
-Filial: {user.branch}
+Filial: {user.branch if user.branch else "Yo'q"}
 Telefon raqamlar: {phones_text}
 Kasb: {state_data["vacancy_type"]}
 Ish vaqti: {state_data["working_time"]}
