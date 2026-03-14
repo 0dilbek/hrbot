@@ -43,6 +43,9 @@ admin_menu = admin_menu.as_markup(resize_keyboard=True)
 
 def kasblar_lst_btn(kasblar: list[str], is_admin: bool):
     markup = ReplyKeyboardBuilder()
+    markup.button(text="Orqaga", icon_custom_emoji_id="5400169738263352182")
+    sizes = [1]
+    
     for kasb in kasblar:
         markup.button(text=kasb)
 
@@ -56,7 +59,6 @@ def kasblar_lst_btn(kasblar: list[str], is_admin: bool):
     else:
         width = 1
 
-    sizes = []
     if count > 0:
         full_rows = count // width
         remainder = count % width
@@ -67,24 +69,24 @@ def kasblar_lst_btn(kasblar: list[str], is_admin: bool):
     if is_admin:
         markup.button(text="Yangi kasb qo‘shish")
         sizes.append(1)
-    
-    markup.button(text="Orqaga", icon_custom_emoji_id="5400169738263352182")
-    sizes.append(1)
 
     markup.adjust(*sizes)
     return markup.as_markup(resize_keyboard=True)
 
 def admin_kasb_detail_btn():
     markup = ReplyKeyboardBuilder()
+    markup.button(text="Orqaga", icon_custom_emoji_id="5400169738263352182")
     markup.button(text="Vakansiya matnini yangilash")
     markup.button(text="Oxirgi matnni yangilash")
     markup.button(text="Kasbni o‘chirish")
-    markup.button(text="Orqaga", icon_custom_emoji_id="5400169738263352182")
     markup.adjust(1)
     return markup.as_markup(resize_keyboard=True)
 
 def fanlar_lst_btn(fanlar: list[str], is_admin: bool):
     markup = ReplyKeyboardBuilder()
+    markup.button(text="Orqaga", icon_custom_emoji_id="5400169738263352182")
+    sizes = [1]
+    
     for fan in fanlar:
         markup.button(text=fan)
 
@@ -98,7 +100,6 @@ def fanlar_lst_btn(fanlar: list[str], is_admin: bool):
     else:
         width = 1
 
-    sizes = []
     if count > 0:
         full_rows = count // width
         remainder = count % width
@@ -110,14 +111,16 @@ def fanlar_lst_btn(fanlar: list[str], is_admin: bool):
         markup.button(text="Yangi fan qo‘shish")
         sizes.append(1)
     
-    markup.button(text="Orqaga", icon_custom_emoji_id="5400169738263352182")
-    sizes.append(1)
+
 
     markup.adjust(*sizes)
     return markup.as_markup(resize_keyboard=True)
 
 def sertifikatlar_lst_btn(sertifikatlar: list[str], is_admin: bool):
     markup = ReplyKeyboardBuilder()
+    markup.button(text="Orqaga", icon_custom_emoji_id="5400169738263352182")
+    sizes = [1]
+    
     for sertifikat in sertifikatlar:
         markup.button(text=sertifikat)
 
@@ -131,7 +134,6 @@ def sertifikatlar_lst_btn(sertifikatlar: list[str], is_admin: bool):
     else:
         width = 1
 
-    sizes = []
     if count > 0:
         full_rows = count // width
         remainder = count % width
@@ -147,15 +149,14 @@ def sertifikatlar_lst_btn(sertifikatlar: list[str], is_admin: bool):
         markup.button(text="Shablon faylni olish")
         markup.button(text="Fanni o‘chirish")
         sizes.append(1)
-        
-    markup.button(text="Orqaga", icon_custom_emoji_id="5400169738263352182")
-    sizes.append(1)
     
     markup.adjust(*sizes)
     return markup.as_markup(resize_keyboard=True)
 
 def sertifikat_balls_lst_btn(balls: list[str], is_admin: bool, is_new : bool = False):
     markup = ReplyKeyboardBuilder()
+    markup.button(text="Orqaga", icon_custom_emoji_id="5400169738263352182")
+    sizes = [1]
     
     for ball in balls:
         markup.button(text=ball)
@@ -170,7 +171,6 @@ def sertifikat_balls_lst_btn(balls: list[str], is_admin: bool, is_new : bool = F
     else:
         width = 1
 
-    sizes = []
     if count > 0:
         full_rows = count // width
         remainder = count % width
@@ -187,9 +187,6 @@ def sertifikat_balls_lst_btn(balls: list[str], is_admin: bool, is_new : bool = F
         markup.button(text="Sertifikatni o‘chirish")
         sizes.append(2)
     
-    markup.button(text="Orqaga", icon_custom_emoji_id="5400169738263352182")
-    sizes.append(1)
-
     markup.adjust(*sizes)
     return markup.as_markup(resize_keyboard=True)
 
