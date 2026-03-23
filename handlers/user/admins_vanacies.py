@@ -162,7 +162,7 @@ Oxirgi ish joyidan ketish sababi: {state_data.get('why_leave_work', "yo‘q")}
 Oxirgi ish joyi telefon raqami: {state_data.get('last_work_place_phone', "yo‘q")}
 Nega aynan bizni tanladingiz?: {message.text}
 
-M’lumotlaringiz to‘g‘riligini tasdiqlang.
+Ma’lumotlaringiz to‘g‘riligini tasdiqlang.
     """, reply_markup=confirm_btn)
     await state.update_data(why_choice_us=message.text)
     await state.set_state(AdminsVacancyState.confirm)
