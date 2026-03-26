@@ -141,7 +141,8 @@ async def select_has_sertificate(message: Message, state: FSMContext):
         user = await TgUser.get_or_none(tg_id=message.chat.id)
         quiz = await Quizs.get_or_none(subject=subject)
         if not quiz:
-            await message.answer("Bu fandan test mavjud emas.", reply_markup=back_btn)
+            await state.set_state(TeachersVacancyState.position)
+            await message.answer("Ustozlar vakansiyasi bo‘yicha lavozimni tanlang.", reply_markup=teacher_position_btn)
             return
         answer = await QuizAnswers.get_or_none(user=user, quiz=quiz)
         if answer:
