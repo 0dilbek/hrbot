@@ -163,5 +163,9 @@ async def register_profile_pic(message: Message, state: FSMContext, bot: Bot):
     #     await message.answer("Ro'yxatdan o'tishda xatolik yuz berdi. Iltimos, qayta urinib ko'ring.", reply_markup=main_menu_users_btn(is_registered=False))
     #     await state.clear()
     #     return
-    await message.answer("Ro‘yxatdan o‘tish yakunlandi!", reply_markup=main_menu_users_btn(is_registered=True))
+    await message.answer("""
+Ro‘yxatdan o‘tish davom etmoqda...
+
+Endi biz haqimizda ma'lumot olishingiz, vakansiya yo‘nalishingizni tanlashingiz yoki bizga hoziroq bog‘lanishingiz mumkin!
+    """, reply_markup=main_menu_users_btn(is_registered=True))
     await state.clear()
