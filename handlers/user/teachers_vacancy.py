@@ -134,8 +134,9 @@ async def select_has_sertificate(message: Message, state: FSMContext):
         await state.set_state(TeachersVacancyState.sertificate_name)
     else:
         if state_data.get("sertificates", []) != []:
-            await message.answer("Ustozlar vakansiyasi bo‘yicha lavozimni tanlang.", reply_markup=teacher_position_btn)
             await state.set_state(TeachersVacancyState.position)
+            await message.answer("➡️", reply_markup=back_btn)
+            await message.answer("Ustozlar vakansiyasi bo‘yicha lavozimni tanlang.", reply_markup=teacher_position_btn)
             return
 
         user = await TgUser.get_or_none(tg_id=message.chat.id)
