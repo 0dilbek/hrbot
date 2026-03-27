@@ -203,11 +203,20 @@ async def admins_vanacies_why_choice_us(message: Message, state: FSMContext):
         foreigin_languages_text += "\n"
     else:
         foreigin_languages_text = "Yo'q"
-
+    user = await Users.get_or_none(id=message.from_user.id)
+    phones_text = "\n\n"
+    for phone in user.phone_numbers:
+        phones_text += f"\t\t• {user.phone_numbers[phone]}\n"
+    else:
+        phones_text += "\n"
     await message.answer(
         f"""
 Ma’lumotlaringiz:
 
+<blockquote expandable>
+Ism-Familiya: {user.full_name}
+Filial: {user.branch if user.branch else "Yo'q"}
+Telefon raqamlar: {phones_text}
 Kasb: {state_data["vacancy_type"]}
 Ish vaqti: {state_data["working_time"]}
 Xorijiy til: {foreigin_languages_text}
@@ -216,6 +225,7 @@ Oxirgi ish joyi: {state_data.get('last_work_place', "yo‘q")}
 Oxirgi ish joyidan ketish sababi: {state_data.get('why_leave_work', "yo‘q")}
 Oxirgi ish joyi telefon raqami: {state_data.get('last_work_place_phone', "yo‘q")}
 Nega aynan bizni tanladingiz?: {message.text}
+</blockquote>
 
 Ma’lumotlaringiz to‘g‘riligini tasdiqlang.
     """,

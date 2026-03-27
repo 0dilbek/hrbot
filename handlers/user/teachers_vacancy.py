@@ -623,10 +623,20 @@ async def select_salary(message: Message, state: FSMContext):
 @router.message(F.text, TeachersVacancyState.why_choice_us)
 async def select_why_choice_us(message: Message, state: FSMContext):
     state_data = await state.get_data()
+    user = await Users.get_or_none(id=message.from_user.id)
+    phones_text = "\n\n"
+    for phone in user.phone_numbers:
+        phones_text += f"\t\t• {user.phone_numbers[phone]}\n"
+    else:
+        phones_text += "\n"
     await message.answer(
         f"""
 Siz kiritgan ma’lumotlar:
 
+<blockquote expandable>
+Ism-Familiya: {user.full_name}
+Filial: {user.branch if user.branch else "Yo'q"}
+Telefon raqamlar: {phones_text}
 Fan: {state_data['subject_name']}
 Ish vaqti: {state_data['working_time']}
 Sertifikatlar:{' | '.join([ser['name'] + ' ' + ser['ball'] for ser in state_data.get('sertificates', [])])}
@@ -638,6 +648,7 @@ Oxirgi ish joyidan ketish sababi: {state_data['why_leave_work']}
 Oxirgi ish joyi telefon raqami: {state_data['last_work_place_phone']}
 Bizdan qancha oylik maosh kutayapsiz?: {state_data['salary']}
 Nega aynan bizni tanladingiz?: {message.text}
+</blockquote>
 
 Ma’lumotlaringiz to‘g‘riligini tasdiqlang.
     """,
