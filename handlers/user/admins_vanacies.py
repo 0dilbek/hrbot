@@ -203,7 +203,7 @@ async def admins_vanacies_why_choice_us(message: Message, state: FSMContext):
         foreigin_languages_text += "\n"
     else:
         foreigin_languages_text = "Yo'q"
-    user = await TgUser.get_or_none(id=message.from_user.id)
+    user = await TgUser.get_or_none(tg_id=message.from_user.id)
     phones_text = "\n\n"
     for phone in user.phone_numbers:
         phones_text += f"\t\t• {user.phone_numbers[phone]}\n"

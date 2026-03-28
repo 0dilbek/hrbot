@@ -622,7 +622,7 @@ async def select_salary(message: Message, state: FSMContext):
 @router.message(F.text, TeachersVacancyState.why_choice_us)
 async def select_why_choice_us(message: Message, state: FSMContext):
     state_data = await state.get_data()
-    user = await TgUser.get_or_none(id=message.from_user.id)
+    user = await TgUser.get_or_none(tg_id=message.from_user.id)
     phones_text = "\n\n"
     for phone in user.phone_numbers:
         phones_text += f"\t\t• {user.phone_numbers[phone]}\n"
