@@ -4,6 +4,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.filters import CommandStart
 from states.user import UserRegisterState
 from database.models import TgUser
+from config import ADMINS
 from datetime import datetime
 from filters.user import IsNewUser
 from keyboards.reply import skip_btn, back_btn, main_menu_users_btn, phone_btn, branches_btn
@@ -146,7 +147,7 @@ async def register_profile_pic(message: Message, state: FSMContext, bot: Bot):
         await message.answer("Iltimos, suratingizni yuboring.")
         return
     # try:
-    await TgUser.create(
+    user = await TgUser.create(
                 tg_id=message.from_user.id,
                 full_name=state_data['full_name'],
                 phone_numbers={"phone_number1": state_data['phone_number1'], "phone_number2": state_data['phone_number2']},
@@ -159,6 +160,41 @@ async def register_profile_pic(message: Message, state: FSMContext, bot: Bot):
                 profile_pic_file_id=profile_pic_file_id,
                 profile_pic_path=profile_pic_path
             )
+
+    phones_text = "\n\n"
+    for phone in user.phone_numbers:
+        phones_text += f"\t\t• {user.phone_numbers[phone]}\n"
+    phones_text += "\n"
+
+    caption = f"""<b>Yangi foydalanuvchi:</b>
+
+<blockquote expandable>
+Ism-Familiya: {user.full_name}
+Filial: {user.branch if user.branch else "Yo'q"}
+Telefon raqamlar: {phones_text}
+Tug‘ilgan sana: {user.birth_date}
+Tug‘ilgan joy: {user.born_address}
+Yashash joyi: {user.live_address}
+Ish joyi yoki maktab: {user.work_or_study_address}
+Qayerdan bizni tanladingiz: {user.where_find_us}
+</blockquote>
+"""
+    for admin in ADMINS:
+        try:
+            if user.profile_pic_file_id:
+                await message.bot.send_photo(
+                    chat_id=admin,
+                    photo=user.profile_pic_file_id,
+                    caption=caption,
+                    parse_mode="HTML",
+                )
+            else:
+                await message.bot.send_message(
+                    chat_id=admin, text=caption, parse_mode="HTML"
+                )
+        except Exception as e:
+            print(e)
+
     # except Exception as e:
     #     await message.answer("Ro'yxatdan o'tishda xatolik yuz berdi. Iltimos, qayta urinib ko'ring.", reply_markup=main_menu_users_btn(is_registered=False))
     #     await state.clear()
