@@ -705,9 +705,9 @@ Sertifikatlar: {sertificates_text}
 Oliygoh: {state_data.get('university', '')}
 Tajriba: {state_data['experience']}
 Lavozim: {state_data['position']}
-Oxirgi ish joyi: {state_data.get('last_work_place', 'yo\'q')}
-Oxirgi ish joyidan ketish sababi: {state_data.get('why_leave_work', 'yo\'q')}
-Oxirgi ish joyi telefon raqami: {state_data.get('last_work_place_phone', 'yo\'q')}
+Oxirgi ish joyi: {state_data.get('last_work_place', "Yo'q")}
+Oxirgi ish joyidan ketish sababi: {state_data.get('why_leave_work', "Yo'q")}
+Oxirgi ish joyi telefon raqami: {state_data.get('last_work_place_phone', "Yo'q")}
 Bizdan qancha oylik maosh kutayapsiz?: {state_data['salary']}
 Nega aynan bizni tanladingiz?: {state_data['why_choice_us']}
 </blockquote>
