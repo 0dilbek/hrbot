@@ -642,9 +642,9 @@ Sertifikatlar:{' | '.join([ser['name'] + ' ' + ser['ball'] for ser in state_data
 Oliygoh: {state_data.get('university', '')}
 Tajriba: {state_data['experience']}
 Lavozim: {state_data['position']}
-Oxirgi ish joyi: {state_data['last_work_place']}
-Oxirgi ish joyidan ketish sababi: {state_data['why_leave_work']}
-Oxirgi ish joyi telefon raqami: {state_data['last_work_place_phone']}
+Oxirgi ish joyi: {state_data.get("last_work_place", "Yo'q")}
+Oxirgi ish joyidan ketish sababi: {state_data.get("why_leave_work", "Yo'q")}
+Oxirgi ish joyi telefon raqami: {state_data.get("last_work_place_phone", "Yo'q")}
 Bizdan qancha oylik maosh kutayapsiz?: {state_data['salary']}
 Nega aynan bizni tanladingiz?: {message.text}
 </blockquote>
@@ -669,9 +669,9 @@ async def confirm(message: Message, state: FSMContext):
             university=state_data.get("university", ""),
             experience=state_data["experience"],
             position=state_data["position"],
-            last_work_place=state_data["last_work_place"],
-            why_leave_work=state_data["why_leave_work"],
-            last_work_place_phone=state_data["last_work_place_phone"],
+            last_work_place=state_data.get("last_work_place", "yo'q"),
+            why_leave_work=state_data.get("why_leave_work", "yo'q"),
+            last_work_place_phone=state_data.get("last_work_place_phone", "yo'q"),
             salary=state_data["salary"],
             why_choice_us=state_data["why_choice_us"],
             user=user,
