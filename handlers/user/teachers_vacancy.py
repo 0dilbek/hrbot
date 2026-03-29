@@ -713,7 +713,7 @@ Nega aynan bizni tanladingiz?: {state_data['why_choice_us']}
 </blockquote>
 
                 """
-
+v 
         for admin in ADMINS:
             try:
                 if user.profile_pic_file_id:
