@@ -702,7 +702,7 @@ Telefon raqamlar: {phones_text}
 Fani: {state_data['subject_name']}
 Ish vaqti: {state_data['working_time']}
 Sertifikatlar: {sertificates_text}
-Oliygoh: {state_data.get('university', 'yo\'q')}
+Oliygoh: {state_data.get('university', '')}
 Tajriba: {state_data['experience']}
 Lavozim: {state_data['position']}
 Oxirgi ish joyi: {state_data.get('last_work_place', 'yo\'q')}
@@ -713,7 +713,7 @@ Nega aynan bizni tanladingiz?: {state_data['why_choice_us']}
 </blockquote>
 
                 """
-v 
+
         for admin in ADMINS:
             try:
                 if user.profile_pic_file_id:
