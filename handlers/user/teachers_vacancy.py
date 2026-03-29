@@ -702,12 +702,12 @@ Telefon raqamlar: {phones_text}
 Fani: {state_data['subject_name']}
 Ish vaqti: {state_data['working_time']}
 Sertifikatlar: {sertificates_text}
-Oliygoh: {state_data.get('university', '')}
+Oliygoh: {state_data.get('university', 'yo\'q')}
 Tajriba: {state_data['experience']}
 Lavozim: {state_data['position']}
-Oxirgi ish joyi: {state_data['last_work_place']}
-Oxirgi ish joyidan ketish sababi: {state_data['why_leave_work']}
-Oxirgi ish joyi telefon raqami: {state_data['last_work_place_phone']}
+Oxirgi ish joyi: {state_data.get('last_work_place', 'yo\'q')}
+Oxirgi ish joyidan ketish sababi: {state_data.get('why_leave_work', 'yo\'q')}
+Oxirgi ish joyi telefon raqami: {state_data.get('last_work_place_phone', 'yo\'q')}
 Bizdan qancha oylik maosh kutayapsiz?: {state_data['salary']}
 Nega aynan bizni tanladingiz?: {state_data['why_choice_us']}
 </blockquote>
