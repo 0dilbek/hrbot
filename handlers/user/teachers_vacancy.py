@@ -711,7 +711,6 @@ Oxirgi ish joyi telefon raqami: {state_data.get('last_work_place_phone', 'yo\'q'
 Bizdan qancha oylik maosh kutayapsiz?: {state_data['salary']}
 Nega aynan bizni tanladingiz?: {state_data['why_choice_us']}
 </blockquote>
-
                 """
 
         for admin in ADMINS:
