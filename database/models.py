@@ -8,7 +8,7 @@ class TgUser(Model):
     id = fields.IntField(pk=True)
     tg_id = fields.BigIntField(unique=True)
     
-    full_name = fields.CharField(max_length=100)
+    full_name = fields.CharField(max_length=255)
     phone_numbers = fields.JSONField(default=[])
     
     birth_date = fields.DateField()
@@ -16,7 +16,7 @@ class TgUser(Model):
     live_address = fields.CharField(max_length=255)
     work_or_study_address = fields.CharField(max_length=255)
     where_find_us = fields.CharField(max_length=255, null=True, blank=True)
-    branch = fields.CharField(max_length=100)
+    branch = fields.CharField(max_length=255)
 
     profile_pic_file_id = fields.CharField(max_length=255, null=True, blank=True)
     profile_pic_path = fields.CharField(max_length=255, null=True, blank=True)
@@ -32,17 +32,17 @@ class TgUser(Model):
 class TeacherResume(Model):
     id = fields.IntField(pk=True)
     user = fields.ForeignKeyField('models.TgUser', related_name='resumes')
-    subject = fields.CharField(max_length=100)
+    subject = fields.CharField(max_length=255)
     university = fields.CharField(max_length=255)
-    experience = fields.CharField(max_length=100)
-    working_time = fields.CharField(max_length=100)
-    position = fields.CharField(max_length=20)
-    salary = fields.CharField(max_length=100)
+    experience = fields.CharField(max_length=255)
+    working_time = fields.CharField(max_length=255)
+    position = fields.CharField(max_length=255)
+    salary = fields.CharField(max_length=255)
     sertificates = fields.JSONField(default=[])
-    last_work_place = fields.CharField(max_length=100)
-    why_leave_work = fields.CharField(max_length=100)
-    last_work_place_phone = fields.CharField(max_length=100)
-    why_choice_us = fields.CharField(max_length=100)
+    last_work_place = fields.CharField(max_length=255)
+    why_leave_work = fields.CharField(max_length=255)
+    last_work_place_phone = fields.CharField(max_length=255)
+    why_choice_us = fields.CharField(max_length=255)
 
 
     created_at = fields.DatetimeField(default=utcnow)
@@ -56,14 +56,14 @@ class TeacherResume(Model):
 class AdminsResume(Model):
     id = fields.IntField(pk=True)
     user = fields.ForeignKeyField('models.TgUser', related_name='admins_resumes')
-    job = fields.CharField(max_length=100)
+    job = fields.CharField(max_length=255)
     foreign_languages = fields.JSONField(default=[])
-    experience = fields.CharField(max_length=100)
-    working_time = fields.CharField(max_length=100)
-    last_work_place = fields.CharField(max_length=100)
-    why_leave_work = fields.CharField(max_length=100)
-    last_work_place_phone = fields.CharField(max_length=100)
-    why_choice_us = fields.CharField(max_length=100)
+    experience = fields.CharField(max_length=255)
+    working_time = fields.CharField(max_length=255)
+    last_work_place = fields.CharField(max_length=255)
+    why_leave_work = fields.CharField(max_length=255)
+    last_work_place_phone = fields.CharField(max_length=255)
+    why_choice_us = fields.CharField(max_length=255)
 
     created_at = fields.DatetimeField(default=utcnow)
     
@@ -75,7 +75,7 @@ class AdminsResume(Model):
 
 class VacanciesText(Model):
     id = fields.IntField(pk=True)
-    name = fields.CharField(max_length=100)
+    name = fields.CharField(max_length=255)
     text = fields.TextField()
     last_text = fields.TextField(default="")
 
@@ -87,12 +87,12 @@ class VacanciesText(Model):
 
 class Subjects(Model):
     id = fields.IntField(pk=True)
-    name = fields.CharField(max_length=100)
+    name = fields.CharField(max_length=255)
     
 class Sertificates(Model):
     id = fields.IntField(pk=True)
     subject = fields.ForeignKeyField('models.Subjects', related_name='sertificates')
-    name = fields.CharField(max_length=100)
+    name = fields.CharField(max_length=255)
     ball_list = fields.JSONField(default=[])
     
 class Quizs(Model):
