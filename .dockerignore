@@ -1,0 +1,24 @@
+# VCS and local env
+.git
+.gitignore
+myenv/
+.venv/
+__pycache__/
+*.pyc
+
+# Runtime/generated files
+statics/
+static/
+media/
+logs/
+*.log
+
+# Large local artifacts
+telegram-bot-api-data/
+tictacLogs/
+
+# IDE/OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
