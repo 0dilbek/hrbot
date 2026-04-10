@@ -10,11 +10,12 @@ from config import (
     WEBHOOK_LISTEN_PORT,
 )
 import asyncio
-from aiogram import Bot, Dispatcher
+from aiogram import Bot, Dispatcher, Router, BaseMiddleware
 from aiogram.client.session.aiohttp import AiohttpSession
 from aiogram.client.telegram import TelegramAPIServer
 from aiogram.exceptions import TelegramNetworkError
 from aiogram.fsm.storage.redis import RedisStorage
+from aiogram.types import Message
 from aiogram.webhook.aiohttp_server import SimpleRequestHandler, setup_application
 from aiohttp import web
 from handlers import router as main_router
@@ -27,6 +28,20 @@ logger = getLogger(__name__)
 storage = RedisStorage.from_url(f"redis://{REDIS_HOST}:{REDIS_PORT}")
 
 dp = Dispatcher(storage=storage)
+debug_router = Router()
+
+
+class UpdateDebugMiddleware(BaseMiddleware):
+    async def __call__(self, handler, event, data):
+        message = getattr(event, "message", None)
+        if message and message.from_user:
+            logger.info(
+                "Incoming message user_id=%s chat_id=%s text=%r",
+                message.from_user.id,
+                message.chat.id,
+                message.text,
+            )
+        return await handler(event, data)
 
 
 async def set_webhook_with_retry(bot: Bot):
@@ -59,6 +74,12 @@ async def on_shutdown(bot: Bot):
     await bot.session.close()
 
 
+@debug_router.message()
+async def unhandled_message(message: Message):
+    logger.info("Unhandled message user_id=%s text=%r", message.from_user.id, message.text)
+    await message.answer("Xabar qabul qilindi, lekin mos handler topilmadi. /start yuboring.")
+
+
 def main():
     bot_api_server = TelegramAPIServer.from_base(BOT_API_SERVER)
     bot_session = AiohttpSession(proxy=BOT_PROXY_URL) if BOT_PROXY_URL else AiohttpSession()
@@ -67,6 +88,8 @@ def main():
     bot = Bot(token=BOT_TOKEN, server=bot_api_server, session=bot_session)
 
     dp.include_router(main_router)
+    dp.include_router(debug_router)
+    dp.update.middleware(UpdateDebugMiddleware())
     dp.update.middleware(LongMessageMiddleware())
     dp.startup.register(on_startup)
     dp.shutdown.register(on_shutdown)
