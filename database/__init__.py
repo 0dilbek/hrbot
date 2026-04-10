@@ -42,3 +42,4 @@ async def migrate_db():
 
 async def close_db():
     await Tortoise.close_connections()
+    

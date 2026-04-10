@@ -19,6 +19,22 @@ services:
     expose:
       - "6379"
 
+  tgba:
+    image: aiogram/telegram-bot-api:latest
+    restart: always
+    environment:
+      TELEGRAM_API_ID: ${TELEGRAM_API_ID}
+      TELEGRAM_API_HASH: ${TELEGRAM_API_HASH}
+      TELEGRAM_LOCAL: "1"
+      TELEGRAM_STAT: "1"
+    expose:
+      - "8081"
+    volumes:
+      - ../telegram-bot-api-data:/var/lib/telegram-bot-api
+      - ./static:/usr/src/app/static
+      - ./media:/usr/src/app/media
+      - ../tictacLogs:/logs
+
   bot:
     build: .
     container_name: aiogram_bot
@@ -27,11 +43,19 @@ services:
       - .env
     environment:
       - REDIS_HOST=redis
+      - BOT_API_SERVER=http://tgba:8081
+      - WEBHOOK_BASE_URL=http://bot:8080
+      - WEBHOOK_PATH=/webhook
+      - WEBHOOK_LISTEN_HOST=0.0.0.0
+      - WEBHOOK_LISTEN_PORT=8080
     volumes:
       - .:/app
+    expose:
+      - "8080"
     depends_on:
       - db
       - redis
+      - tgba
 
 volumes:
   postgres_data:
