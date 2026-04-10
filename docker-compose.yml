@@ -43,8 +43,8 @@ services:
       - .env
     environment:
       - REDIS_HOST=redis
-      - BOT_API_SERVER=${BOT_API_SERVER}
-      - BOT_PROXY_URL=${BOT_PROXY_URL}
+      - BOT_API_SERVER=${BOT_API_SERVER:-https://api.telegram.org}
+      - BOT_PROXY_URL=${BOT_PROXY_URL:-}
       - WEBHOOK_BASE_URL=http://bot:8080
       - WEBHOOK_PATH=/webhook
       - WEBHOOK_LISTEN_HOST=0.0.0.0
