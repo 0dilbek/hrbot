@@ -3,38 +3,68 @@ from config import (
     REDIS_HOST,
     REDIS_PORT,
     BOT_API_SERVER,
+    BOT_PROXY_URL,
     WEBHOOK_BASE_URL,
     WEBHOOK_PATH,
     WEBHOOK_LISTEN_HOST,
     WEBHOOK_LISTEN_PORT,
 )
+import asyncio
 from aiogram import Bot, Dispatcher
+from aiogram.client.session.aiohttp import AiohttpSession
 from aiogram.client.telegram import TelegramAPIServer
+from aiogram.exceptions import TelegramNetworkError
 from aiogram.fsm.storage.redis import RedisStorage
 from aiogram.webhook.aiohttp_server import SimpleRequestHandler, setup_application
 from aiohttp import web
 from handlers import router as main_router
-from logging import basicConfig, INFO
+from logging import basicConfig, INFO, getLogger
 from database import init_db, close_db
 from miidlewares.base import LongMessageMiddleware
+
+logger = getLogger(__name__)
 
 storage = RedisStorage.from_url(f"redis://{REDIS_HOST}:{REDIS_PORT}")
 
 dp = Dispatcher(storage=storage)
 
+
+async def set_webhook_with_retry(bot: Bot):
+    webhook_url = f"{WEBHOOK_BASE_URL}{WEBHOOK_PATH}"
+    await asyncio.sleep(2)
+
+    for attempt in range(1, 11):
+        try:
+            await bot.set_webhook(url=webhook_url, drop_pending_updates=True)
+            logger.info("Webhook set: %s", webhook_url)
+            return
+        except TelegramNetworkError as e:
+            logger.warning("Webhook set attempt %s failed: %s", attempt, e)
+            await asyncio.sleep(2)
+
+    raise RuntimeError("Failed to set webhook after retries")
+
+
 async def on_startup(bot: Bot):
     await init_db()
-    await bot.set_webhook(url=f"{WEBHOOK_BASE_URL}{WEBHOOK_PATH}", drop_pending_updates=True)
+    asyncio.create_task(set_webhook_with_retry(bot))
 
 
 async def on_shutdown(bot: Bot):
-    await bot.delete_webhook()
+    try:
+        await bot.delete_webhook()
+    except TelegramNetworkError as e:
+        logger.warning("Webhook delete failed: %s", e)
     await close_db()
+    await bot.session.close()
 
 
 def main():
     bot_api_server = TelegramAPIServer.from_base(BOT_API_SERVER)
-    bot = Bot(token=BOT_TOKEN, server=bot_api_server)
+    bot_session = AiohttpSession(proxy=BOT_PROXY_URL) if BOT_PROXY_URL else AiohttpSession()
+    if BOT_PROXY_URL:
+        logger.info("Proxy enabled for Telegram API requests")
+    bot = Bot(token=BOT_TOKEN, server=bot_api_server, session=bot_session)
 
     dp.include_router(main_router)
     dp.update.middleware(LongMessageMiddleware())
