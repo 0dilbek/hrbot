@@ -81,7 +81,7 @@ async def unhandled_message(message: Message):
 
 
 def main():
-    bot_api_server = TelegramAPIServer.from_base(BOT_API_SERVER, is_local=True)
+    bot_api_server = TelegramAPIServer.from_base(BOT_API_SERVER, is_local=False)
     bot_session = AiohttpSession(api=bot_api_server, proxy=BOT_PROXY_URL) if BOT_PROXY_URL else AiohttpSession(api=bot_api_server)
     bot = Bot(token=BOT_TOKEN, session=bot_session)   # server= olib tashlang
     dp.include_router(main_router)
