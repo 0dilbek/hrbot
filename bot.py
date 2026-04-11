@@ -81,7 +81,7 @@ async def unhandled_message(message: Message):
 
 
 def main():
-    bot_api_server = TelegramAPIServer.from_base(BOT_API_SERVER)
+    bot_api_server = TelegramAPIServer.from_base(BOT_API_SERVER, is_local=True)
     bot_session = AiohttpSession(proxy=BOT_PROXY_URL) if BOT_PROXY_URL else AiohttpSession()
     if BOT_PROXY_URL:
         logger.info("Proxy enabled for Telegram API requests")
