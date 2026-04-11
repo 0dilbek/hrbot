@@ -331,7 +331,7 @@ async def select_sertificate_ball(message: Message, state: FSMContext):
 
 
 @router.message(TeachersVacancyState.sertificate_file)
-async def select_sertificate_file(message: Message, state: FSMContext, bot: Bot):
+async def select_sertificate_file(message: Message, state: FSMContext):
     if not message.document and not message.photo:
         await message.answer("Iltimos, sertifikatni fayl ko‘rinishida yuboring.")
         return
@@ -350,13 +350,14 @@ async def select_sertificate_file(message: Message, state: FSMContext, bot: Bot)
         }
     )
     await state.update_data(sertificates=sertificates)
-    file = await bot.get_file(
-        message.document.file_id if message.document else message.photo[-1].file_id
-    )
-    await bot.download_file(
-        file.file_path,
-        destination=f"statics/sertificates/{message.document.file_id if message.document else message.photo[-1].file_id}.{file.file_path.split('.')[-1]}",
-    )
+    # TODO: vaqtincha skip - bot.get_file va download o'chirildi
+    # file = await bot.get_file(
+    #     message.document.file_id if message.document else message.photo[-1].file_id
+    # )
+    # await bot.download_file(
+    #     file.file_path,
+    #     destination=f"statics/sertificates/{message.document.file_id if message.document else message.photo[-1].file_id}.{file.file_path.split('.')[-1]}",
+    # )
     ignor_sertificate_names = [sertificate["name"] for sertificate in sertificates]
     sertificates_lst = await Sertificates.filter(
         subject=state_data["subject_id"]

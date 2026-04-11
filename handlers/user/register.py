@@ -1,4 +1,4 @@
-from aiogram import Router, F, Bot
+from aiogram import Router, F
 from aiogram.types import Message, ReplyKeyboardRemove
 from aiogram.fsm.context import FSMContext
 from aiogram.filters import CommandStart
@@ -127,7 +127,7 @@ async def register_branch(message: Message, state: FSMContext):
     await state.set_state(UserRegisterState.profile_pic)
 
 @router.message(UserRegisterState.profile_pic)
-async def register_profile_pic(message: Message, state: FSMContext, bot: Bot):
+async def register_profile_pic(message: Message, state: FSMContext):
     state_data = await state.get_data()
     profile_pic_file_id = ""
     profile_pic_path = ""
@@ -140,9 +140,11 @@ async def register_profile_pic(message: Message, state: FSMContext, bot: Bot):
             return
     elif message.photo:
         profile_pic_file_id = message.photo[-1].file_id
-        file = await bot.get_file(message.photo[-1].file_id)
-        await bot.download_file(file.file_path, f"statics/photos/{message.from_user.id}.{file.file_path.split('.')[-1]}")
-        profile_pic_path = f"statics/photos/{message.from_user.id}.{file.file_path.split('.')[-1]}"
+        # TODO: vaqtincha skip - bot.get_file va download o'chirildi
+        # file = await bot.get_file(message.photo[-1].file_id)
+        # await bot.download_file(file.file_path, f"statics/photos/{message.from_user.id}.{file.file_path.split('.')[-1]}")
+        # profile_pic_path = f"statics/photos/{message.from_user.id}.{file.file_path.split('.')[-1]}"
+        profile_pic_path = ""
     else:
         await message.answer("Iltimos, suratingizni yuboring.")
         return
