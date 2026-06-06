@@ -9,8 +9,9 @@ from keyboards.reply import (
     main_menu_users_btn,
     vacancies_btn,
     confirm_btn,
-    experience_btn,
+    experience_btn
 )
+from keyboards.inline import copy_user_id_btn
 from database.models import VacanciesText, Subjects, AdminsResume, TgUser, VacanciesText
 from states.user import AdminsVacancyState
 from config import ADMINS
@@ -290,10 +291,11 @@ Nega aynan bizni tanladingiz?: {state_data.get("why_choice_us")}
                         photo=user.profile_pic_file_id,
                         caption=caption,
                         parse_mode="HTML",
+                        reply_markup=copy_user_id_btn(user_id=user.tg_id),
                     )
                 else:
                     await message.bot.send_message(
-                        chat_id=admin, text=caption, parse_mode="HTML"
+                        chat_id=admin, text=caption, parse_mode="HTML", reply_markup=copy_user_id_btn(user_id=user.tg_id)
                     )
             except Exception as e:
                 print(e)

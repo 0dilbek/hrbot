@@ -1,4 +1,5 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder
+from aiogram.types import CopyTextButton
 
 def inline_keyboard_builder(buttons: list[tuple[str, str]]):
     builder = InlineKeyboardBuilder()
@@ -21,3 +22,8 @@ def branches_btn(selected_branch: str = None):
     branches_btn.adjust(1)
 
     return branches_btn.as_markup()
+
+def copy_user_id_btn(user_id: int):
+    copy_btn = InlineKeyboardBuilder()
+    copy_btn.button(text="Telegram ID'sini nusxalash", copy_data=CopyTextButton(text=str(user_id)))
+    return copy_btn.as_markup()

@@ -4,6 +4,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.filters import CommandStart
 from states.user import UserRegisterState
 from database.models import TgUser
+from keyboards.inline import copy_user_id_btn
 from config import ADMINS
 from datetime import datetime
 from filters.user import IsNewUser
@@ -189,10 +190,11 @@ Qayerdan bizni tanladingiz: {user.where_find_us}
                     photo=user.profile_pic_file_id,
                     caption=caption,
                     parse_mode="HTML",
+                    reply_markup=copy_user_id_btn(user_id=user.tg_id)
                 )
             else:
                 await message.bot.send_message(
-                    chat_id=admin, text=caption, parse_mode="HTML"
+                    chat_id=admin, text=caption, parse_mode="HTML", reply_markup=copy_user_id_btn(user_id=user.tg_id)
                 )
         except Exception as e:
             print(e)

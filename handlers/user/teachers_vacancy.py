@@ -6,6 +6,7 @@ from aiogram.types import (
     ReplyKeyboardRemove,
     CallbackQuery,
 )
+from keyboards.inline import copy_user_id_btn
 from filters.user import IsRegisteredUser
 from keyboards.reply import (
     vacancies_btn,
@@ -722,10 +723,11 @@ Nega aynan bizni tanladingiz?: {state_data['why_choice_us']}
                         photo=user.profile_pic_file_id,
                         caption=caption,
                         parse_mode="HTML",
+                        reply_markup=copy_user_id_btn(user_id=user.tg_id)
                     )
                 else:
                     await message.bot.send_message(
-                        chat_id=admin, text=caption, parse_mode="HTML"
+                        chat_id=admin, text=caption, parse_mode="HTML", reply_markup=copy_user_id_btn(user_id=user.tg_id)
                     )
             except Exception as e:
                 print(f"Error sending message to admin {admin}: {e}")
