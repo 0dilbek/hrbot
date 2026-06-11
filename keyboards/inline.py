@@ -25,5 +25,5 @@ def branches_btn(selected_branch: str = None):
 
 def copy_user_id_btn(user_id: int):
     copy_btn = InlineKeyboardBuilder()
-    copy_btn.button(text="Telegram ID'sini nusxalash", copy_data=CopyTextButton(text=str(user_id)))
+    copy_btn.button(text="Telegram ID'sini nusxalash", copy_text=CopyTextButton(text=str(user_id)))
     return copy_btn.as_markup()
